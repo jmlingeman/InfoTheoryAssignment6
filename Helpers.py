@@ -16,5 +16,5 @@ def get_character_count(lines):
 
 def bitstring2matrix(bitstring):
 	return  np.matrix([int(x) for x in list(bitstring)])
-end
+
 
