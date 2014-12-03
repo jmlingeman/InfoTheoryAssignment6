@@ -1,5 +1,6 @@
 from Queue import PriorityQueue
 from Helpers import *
+import numpy as np
 
 __author__ = 'jesse'
 
@@ -90,15 +91,23 @@ class HuffmanCode:
 
 class HammingCode:
     def __init__(self):
-        NotImplementedError
+        self.H = np.matrix("1 0 1 1 1 0 0 0 1 1 1 1 0 0 0; 1 1 0 1 1 0 1 1 0 0 1 0 1 0 0; 1 1 1 0 1 1 0 1 1 0 0 0 0 1 0; 1 1 1 1 0 1 1 0 0 1 0 0 0 0 1")
+
+        self.G = np.concatenate((np.identity(11), np.transpose(H[:, :-4])), axis = 1)
+
+      
+
+
 
     def HammingEncode(self, bitstring):
-        NotImplementedError
+        bits = bitstring2matrix(bitstring)
+        return [x%2 bits*self.G]
+    end
 
     def HammingDecode(self, bitstring):
         NotImplementedError
 
 
-# char_count = get_character_count(read_in_file("pg2852.txt"))
-# print char_count
-# code = HuffmanCode(char_count)
+char_count = get_character_count(read_in_file("pg2852.txt"))
+print char_count
+code = HuffmanCode(char_count)
