@@ -1,6 +1,8 @@
 from Queue import PriorityQueue
+
 from Helpers import *
 import numpy as np
+
 
 __author__ = 'jesse'
 
@@ -24,9 +26,9 @@ class Node:
             return bit_string
 
         if self.parent.children[0] == self:
-            return self.parent.get_bit_string(bit_string + "0")
+            return self.parent.get_bit_string("0" + bit_string)
         else:
-            return self.parent.get_bit_string(bit_string + "1")
+            return self.parent.get_bit_string("1" + bit_string)
 
 
 class HuffmanCode:
@@ -52,8 +54,6 @@ class HuffmanCode:
         for node in self.leaf_nodes:
             codebook[node.char] = node.get_bit_string("")
         return codebook
-
-
 
     def build_huffman_code(self):
         sorted_characters = sorted(self.char_count.items(), key=lambda(k, v): (v, k))
@@ -83,10 +83,35 @@ class HuffmanCode:
     def huffman_encode(self, s):
         bitstring = ""
         for c in s:
-            bitstring += self.codebook[s]
+            bitstring += self.codebook[c]
+        return bitstring
 
-    def huffman_decode(self, s):
-        pass
+    def huffman_decode(self, bitstring):
+        able_to_decode = True
+        decoded_string = ""
+        while able_to_decode:
+            decoded_char, bitstring = self.huffman_decode_next_char(bitstring)
+            if decoded_char == False:
+                able_to_decode = False
+                break
+            decoded_string += decoded_char
+        return decoded_string
+
+    def huffman_decode_next_char(self, bitstring, code=None):
+        print bitstring
+        if code is None:
+            code = self.code
+        if len(code.char) > 0:
+            return code.char, bitstring
+        else:
+            if len(bitstring) == 0:
+                return False, False
+            if bitstring[0] == "0":
+                # print "TAKING 0 PATH", code.children[0].char
+                return self.huffman_decode_next_char(bitstring[1:], code=code.children[0])
+            else:
+                # print "TAKING 1 PATH", code.children[0].char
+                return self.huffman_decode_next_char(bitstring[1:], code=code.children[1])
 
 
 class HammingCode:
@@ -111,3 +136,5 @@ class HammingCode:
 char_count = get_character_count(read_in_file("pg2852.txt"))
 print char_count
 code = HuffmanCode(char_count)
+encoded_string = code.huffman_encode("test")
+print code.huffman_decode(encoded_string)
