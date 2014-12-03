@@ -1,7 +1,8 @@
 from Queue import PriorityQueue
 
-from Helpers import *
 import numpy as np
+
+from Helpers import *
 
 
 __author__ = 'jesse'
@@ -119,6 +120,7 @@ class HammingCode:
         self.H = np.matrix("1 0 1 1 1 0 0 0 1 1 1 1 0 0 0; 1 1 0 1 1 0 1 1 0 0 1 0 1 0 0; 1 1 1 0 1 1 0 1 1 0 0 0 0 1 0; 1 1 1 1 0 1 1 0 0 1 0 0 0 0 1")
 
         self.G = np.concatenate((np.identity(11), np.transpose(H[:, :-4])), axis = 1)
+
 
     def HammingEncode(self, bitstring):
         bits = bitstring2matrix(bitstring)
