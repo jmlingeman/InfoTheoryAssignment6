@@ -26,4 +26,8 @@ hamming_decoded_ascii = hamming.HammingDecode(hamming_corrupted_bitstring)
 hamming_ascii_final = convert_binary_to_ascii(hamming_decoded_ascii)
 
 # Now do the same thing but with Huffman Coding
-
+huffman_string = huffman_code.huffman_encode("".join(book))
+hamming_huffman = hamming.HammingEncode(huffman_string)
+hamming_huffman_corrupted_bitstring = channel.BSC(hamming_huffman, perror=0.02)
+hamming_decoded_huffman = hamming.HammingDecode(hamming_huffman_corrupted_bitstring)
+hamming_huffman_final = convert_binary_to_ascii(hamming_decoded_huffman)
