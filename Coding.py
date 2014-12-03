@@ -117,23 +117,91 @@ class HuffmanCode:
 
 class HammingCode:
     def __init__(self):
-        self.H = np.matrix("1 0 1 1 1 0 0 0 1 1 1 1 0 0 0; 1 1 0 1 1 0 1 1 0 0 1 0 1 0 0; 1 1 1 0 1 1 0 1 1 0 0 0 0 1 0; 1 1 1 1 0 1 1 0 0 1 0 0 0 0 1")
+        self.H = np.matrix("1 0 1 1 1 0 0 0 1 1 1 1 0 0 0;" +
+                           "1 1 0 1 1 0 1 1 0 0 1 0 1 0 0;" +
+                           "1 1 1 0 1 1 0 1 1 0 0 0 0 1 0;" +
+                           "1 1 1 1 0 1 1 0 0 1 0 0 0 0 1")
 
         self.G = np.concatenate((np.identity(11), np.transpose(self.H[:, :-4])), axis = 1)
-
-
-    def HammingEncode(self, bitstring):
-        bits = bitstring2matrix(bitstring)
-        return [x%2 for x in bits*self.G]
-
-    def HammingDecode(self, bitstring):
+        self.mod2v = np.vectorize(self.mod2)
         
+    def computeParities(self, bits):
+        p1 = np.sum(bits[:,::2])%2
+        p2 = np.sum([np.sum(bits[:,k::4]) for k in range(1,3)])%2
+        p3 = np.sum([np.sum(bits[:,k::8]) for k in range(2,6)])%2
+        p4 = np.sum([np.sum(bits[:,k::16]) for k in range(4,12)])%2
+        parities = [[p1,p2,p3,p4]]
+      #  print parities
+        return parities
 
+    def HammingEncode(self, bits):
+        # splits = np.array_split(bits, 3, axis=1);
+        # np.concatenate((splits[-1], np.zeros((1,4 -splits[-1].shape[1]))), axis = 1)
+
+        parities = self.computeParities(bits)
+        return np.concatenate((bits, parities), axis = 1)
+        #return self.mod2v(bits*self.G)
+   
+    def mod2(self,a): return int(a%2)
+
+    def HammingDecode(self, code):
+        self.H = np.matrix("1 0 1 0 1 0 1 0 1 0 1 1 0 1 0;"+
+                            "0 1 1 0 0 1 1 0 0 1 1 0 0 1 1;"+
+                            "0 0 0 1 1 1 1 0 0 0 0 1 1 1 1;"+
+                            "0 0 0 0 0 0 0 1 1 1 1 1 1 1 1")
+
+        parities = self.mod2v(self.H * np.transpose(code))
+        parities2 = self.computeParities(code[:,:-4])
+        print code[:, -4:]
+        print "parities:"
+        print np.transpose(parities)
+       # print abs(parities2 - code[:, -4:])
+        print
+        
+      #  parities = np.transpose(abs(parities2 - code[:, -4:]))
+        
+        if np.sum(parities) != 0:
+            index = parities[0] + 2 * parities[1] + 4 * parities[2] + 8 * parities[3]
+            index = index[0,0]-1
+            code[0, index] = 1 - code[0, index];
+        else:
+            index = -1
+        return index, code[:,:-4]
+
+        
 
 # char_count = get_character_count(read_in_file("pg2852.txt"))
 # print char_count
 # code = HuffmanCode(char_count)
 # encoded_string = code.huffman_encode("test")
 # print code.huffman_decode(encoded_string)
+
 hamming = HammingCode()
-print hamming.HammingEncode("10010111101")
+original = "11010110100"
+bits = bitstring2matrix(original)
+print
+print "original message:"
+print bits
+print 
+code = hamming.HammingEncode(bits)
+print "message with parity bits:"
+print code
+print
+randombit = np.random.randint(0,15)
+code[0, randombit] = 1 - code[0, randombit]
+print "flipping bit " + str(randombit)
+print code
+print
+
+index, output = hamming.HammingDecode(code)
+if index != -1:
+    print "fixed bit",
+    print index
+else:
+    print "no errors found"
+
+
+print "decoded and corrected message"
+print output
+print np.all(bits == output) 
+print   
