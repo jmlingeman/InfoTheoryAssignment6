@@ -1,7 +1,5 @@
 from Queue import PriorityQueue
 
-import numpy as np
-
 from Helpers import *
 
 
@@ -124,8 +122,8 @@ class HammingCode:
 
         self.G = np.concatenate((np.identity(11), np.transpose(self.H[:, :-4])), axis = 1)
         self.mod2v = np.vectorize(self.mod2)
-        
-    def computeParities(self, bits):
+
+    def compute_parities(self, bits):
         p1 = np.sum(bits[:,::2])%2
         p2 = np.sum([np.sum(bits[:,k::4]) for k in range(1,3)])%2
         p3 = np.sum([np.sum(bits[:,k::8]) for k in range(2,6)])%2
@@ -134,24 +132,33 @@ class HammingCode:
       #  print parities
         return parities
 
-    def HammingEncode(self, bits):
+    def encode_chunks(self, bitstring):
+        chunks = chunk_bitstring(bitstring, 11)
+        encoded_chunks = [self.hamming_encode(convert_string_to_intaarray(x)) for x in chunks]
+        return encoded_chunks
+
+    def decode_chunks(self, chunks):
+        decoded_chunks = [self.hamming_decode(x) for x in chunks]
+        return decoded_chunks
+
+    def hamming_encode(self, bits):
         # splits = np.array_split(bits, 3, axis=1);
         # np.concatenate((splits[-1], np.zeros((1,4 -splits[-1].shape[1]))), axis = 1)
 
-        parities = self.computeParities(bits)
+        parities = self.compute_parities(bits)
         return np.concatenate((bits, parities), axis = 1)
         #return self.mod2v(bits*self.G)
    
     def mod2(self,a): return int(a%2)
 
-    def HammingDecode(self, code):
+    def hamming_decode(self, code):
         self.H = np.matrix("1 0 1 0 1 0 1 0 1 0 1 1 0 1 0;"+
                             "0 1 1 0 0 1 1 0 0 1 1 0 0 1 1;"+
                             "0 0 0 1 1 1 1 0 0 0 0 1 1 1 1;"+
                             "0 0 0 0 0 0 0 1 1 1 1 1 1 1 1")
 
         parities = self.mod2v(self.H * np.transpose(code))
-        parities2 = self.computeParities(code[:,:-4])
+        parities2 = self.compute_parities(code[:, :-4])
         print code[:, -4:]
         print "parities:"
         print np.transpose(parities)
@@ -182,8 +189,8 @@ bits = bitstring2matrix(original)
 print
 print "original message:"
 print bits
-print 
-code = hamming.HammingEncode(bits)
+print
+code = hamming.hamming_encode(bits)
 print "message with parity bits:"
 print code
 print
@@ -193,7 +200,7 @@ print "flipping bit " + str(randombit)
 print code
 print
 
-index, output = hamming.HammingDecode(code)
+index, output = hamming.hamming_decode(code)
 if index != -1:
     print "fixed bit",
     print index

@@ -31,3 +31,19 @@ def convert_binary_to_ascii(bitstring):
 
 def bitstring2matrix(bitstring):
     return np.matrix([int(x) for x in list(bitstring)])
+
+
+def chunk_bitstring(bitstring, chunk_size):
+    number_of_chunks = len(bitstring) / chunk_size
+    chunks = []
+    for i in range(number_of_chunks):
+        chunks.append(bitstring[i * chunk_size:(i + 1) * chunk_size])
+    return chunks
+
+
+def convert_string_to_intaarray(s):
+    return [int(x) for x in s]
+
+
+def convert_intarry_to_string(intarray):
+    return [str(x) for x in intarray]
