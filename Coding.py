@@ -119,7 +119,7 @@ class HammingCode:
     def __init__(self):
         self.H = np.matrix("1 0 1 1 1 0 0 0 1 1 1 1 0 0 0; 1 1 0 1 1 0 1 1 0 0 1 0 1 0 0; 1 1 1 0 1 1 0 1 1 0 0 0 0 1 0; 1 1 1 1 0 1 1 0 0 1 0 0 0 0 1")
 
-        self.G = np.concatenate((np.identity(11), np.transpose(H[:, :-4])), axis = 1)
+        self.G = np.concatenate((np.identity(11), np.transpose(self.H[:, :-4])), axis = 1)
 
 
     def HammingEncode(self, bitstring):
@@ -127,7 +127,7 @@ class HammingCode:
         return [x%2 for x in bits*self.G]
 
     def HammingDecode(self, bitstring):
-        NotImplementedError
+        
 
 
 # char_count = get_character_count(read_in_file("pg2852.txt"))
@@ -135,3 +135,5 @@ class HammingCode:
 # code = HuffmanCode(char_count)
 # encoded_string = code.huffman_encode("test")
 # print code.huffman_decode(encoded_string)
+hamming = HammingCode()
+print hamming.HammingEncode("10010111101")
