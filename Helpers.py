@@ -26,7 +26,12 @@ def convert_ascii_to_binary(input_str):
 
 def convert_binary_to_ascii(bitstring):
     n = int("0b" + bitstring, 2)
-    return binascii.unhexlify('%x' % n)
+    # print bitstring, n, '%x' % n
+    # try:
+
+    return binascii.unhexlify('%02x' % n)
+    # except:
+    # return "DecodingError"
 
 
 def bitstring2matrix(bitstring):

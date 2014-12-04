@@ -7,7 +7,6 @@ __author__ = 'jesse'
 
 
 class Node:
-
     def __init__(self, freq, char, children):
         self.freq = freq
         self.char = char
@@ -31,7 +30,6 @@ class Node:
 
 
 class HuffmanCode:
-
     def __init__(self, char_count):
         self.char_count = char_count
         self.code, self.leaf_nodes = self.build_huffman_code()
@@ -55,7 +53,7 @@ class HuffmanCode:
         return codebook
 
     def build_huffman_code(self):
-        sorted_characters = sorted(self.char_count.items(), key=lambda(k, v): (v, k))
+        sorted_characters = sorted(self.char_count.items(), key=lambda (k, v): (v, k))
 
         # We need to flip the tuples for the priority queue
         leaf_nodes = [Node(x[1], x[0], []) for x in sorted_characters]
@@ -115,15 +113,18 @@ class HuffmanCode:
 
 class HammingCode:
     def __init__(self):
-        pass
-        
+        self.errors = 0
 
     def compute_parities(self, bits):
-        p1 = np.sum(bits[::2])%2
-        p2 = np.sum([np.sum(bits[k::4]) for k in range(1,3)])%2
-        p3 = np.sum([np.sum(bits[k::8]) for k in range(3,7)])%2
-        p4 = np.sum([np.sum(bits[k::16]) for k in range(7,15)])%2
-        parities = [p1,p2,p3,p4]
+        p1 = np.sum(bits[::2]) % 2
+        # print bits
+        p2 = (bits[2] + bits[5] + bits[6] + bits[9] + bits[10] + bits[13] + bits[14]) % 2
+        # p2 = np.sum([np.sum(bits[k::5]) for k in range(1,3)]) % 2
+        # p3 = np.sum([np.sum(bits[k::8]) for k in range(3,7)]) % 2
+        p3 = (np.sum(bits[3:7]) + np.sum(bits[11:15])) % 2
+        # p4 = np.sum([np.sum(bits[k::16]) for k in range(7,15)]) % 2
+        p4 = np.sum(bits[8:15]) % 2
+        parities = [p1, p2, p3, p4]
 
         return parities
 
@@ -137,15 +138,15 @@ class HammingCode:
         return decoded_chunks
 
     def hamming_encode(self, bits):
-        #insert parity slots
+        # insert parity slots
+        # print bits
         bits = np.insert(bits, 0, 0)
         bits = np.insert(bits, 1, 0)
         bits = np.insert(bits, 3, 0)
         bits = np.insert(bits, 7, 0)
-         
+
         #calculate parity values        
         parities = self.compute_parities(bits)
-        
 
         #put values in slots
         bits[0] = parities[0]
@@ -154,59 +155,57 @@ class HammingCode:
         bits[7] = parities[3]
 
         #convert to string
+        # print bits
         bits = ''.join(str(x) for x in bits)
         return bits
-     
+
 
     def hamming_decode(self, code):
-     
-        code = bitstring2matrix(code)
-       
 
-        #make copy of code
+        code = convert_string_to_intaarray(code)
+
+        print code
+
+        # make copy of code
         expected = np.copy(code)
-        
+
 
         #reset parity bits
-        expected[0,0] = 0
-        expected[0,1] = 0
-        expected[0,3] = 0
-        expected[0,7] = 0
-       
+        expected[0] = 0
+        expected[1] = 0
+        expected[3] = 0
+        expected[7] = 0
+
         #recompute parity bits
         parities = self.compute_parities(expected)
-        expected[0,0] = parities[0]
-        expected[0,1] = parities[1]
-        expected[0,3] = parities[2]
-        expected[0,7] = parities[3]
-        
+        expected[0] = parities[0]
+        expected[1] = parities[1]
+        expected[3] = parities[2]
+        expected[7] = parities[3]
 
-        expectedparities = np.array((expected[0,0],expected[0,1],expected[0,3],expected[0,7]))
-        actualparities = np.array((code[0,0],code[0,1],code[0,3],code[0,7]))
-        
+        expectedparities = np.array((expected[0], expected[1], expected[3], expected[7]))
+        actualparities = np.array((code[0], code[1], code[3], code[7]))
+
 
         #create a difference array
         diff = abs(expectedparities - actualparities)
 
-        
         if sum(diff) != 0:
-                #compute index by adding up parity bit values
-                index = diff[0] + 2 * diff[1] + 4 * diff[2] + 8 * diff[3] - 1
-                code[0, index] = 1 - code[0, index];
+            # compute index by adding up parity bit values
+            self.errors += 1
+            index = diff[0] + 2 * diff[1] + 4 * diff[2] + 8 * diff[3] - 1
+            code[index] = 1 - code[index]
         else:
             index = -1
-      
 
         #form result without parity bits
-        result = np.concatenate((np.matrix(code[0,2]), code[0,4:7], code[0,8:]), axis = 1)
-        result = np.array(result)[0]
+        result = [code[2]] + code[4:7] + code[8:]
+        # result = np.array(result)[0]
 
         #convert result to string
         result = ''.join(str(x) for x in result)
         return result
 
-
-        
 
 # char_count = get_character_count(read_in_file("pg2852.txt"))
 # print char_count
@@ -233,7 +232,7 @@ class HammingCode:
 
 # index, output = hamming.hamming_decode(code)
 # if index != -1:
-#     print "fixed bit",
+# print "fixed bit",
 #     print index
 # else:
 #     print "no errors found"
