@@ -22,7 +22,7 @@ hamming = HammingCode()
 hamming_ascii = hamming.encode_chunks(ascii_bitstring)
 hamming_corrupted_bitstring = channel.binary_symmetric_channel(hamming_ascii, perror=0.02)
 hamming_decoded_ascii = hamming.decode_chunks(hamming_corrupted_bitstring)
-hamming_ascii_final = convert_binary_to_ascii(hamming_decoded_ascii)
+hamming_ascii_final = [convert_binary_to_ascii(x) for x in hamming_decoded_ascii]
 
 # Now do the same thing but with Huffman Coding
 huffman_string = huffman_code.huffman_encode("".join(book))

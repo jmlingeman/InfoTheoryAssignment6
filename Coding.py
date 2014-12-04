@@ -115,21 +115,16 @@ class HuffmanCode:
 
 class HammingCode:
     def __init__(self):
-        self.H = np.matrix("1 0 1 1 1 0 0 0 1 1 1 1 0 0 0;" +
-                           "1 1 0 1 1 0 1 1 0 0 1 0 1 0 0;" +
-                           "1 1 1 0 1 1 0 1 1 0 0 0 0 1 0;" +
-                           "1 1 1 1 0 1 1 0 0 1 0 0 0 0 1")
-
-        self.G = np.concatenate((np.identity(11), np.transpose(self.H[:, :-4])), axis = 1)
-        self.mod2v = np.vectorize(self.mod2)
+        pass
+        
 
     def compute_parities(self, bits):
-        p1 = np.sum(bits[:,::2])%2
-        p2 = np.sum([np.sum(bits[:,k::4]) for k in range(1,3)])%2
-        p3 = np.sum([np.sum(bits[:,k::8]) for k in range(2,6)])%2
-        p4 = np.sum([np.sum(bits[:,k::16]) for k in range(4,12)])%2
-        parities = [[p1,p2,p3,p4]]
-      #  print parities
+        p1 = np.sum(bits[::2])%2
+        p2 = np.sum([np.sum(bits[k::4]) for k in range(1,3)])%2
+        p3 = np.sum([np.sum(bits[k::8]) for k in range(3,7)])%2
+        p4 = np.sum([np.sum(bits[k::16]) for k in range(7,15)])%2
+        parities = [p1,p2,p3,p4]
+
         return parities
 
     def encode_chunks(self, bitstring):
@@ -142,38 +137,74 @@ class HammingCode:
         return decoded_chunks
 
     def hamming_encode(self, bits):
-        # splits = np.array_split(bits, 3, axis=1);
-        # np.concatenate((splits[-1], np.zeros((1,4 -splits[-1].shape[1]))), axis = 1)
-
+        #insert parity slots
+        bits = np.insert(bits, 0, 0)
+        bits = np.insert(bits, 1, 0)
+        bits = np.insert(bits, 3, 0)
+        bits = np.insert(bits, 7, 0)
+         
+        #calculate parity values        
         parities = self.compute_parities(bits)
-        return np.concatenate((bits, parities), axis = 1)
-        #return self.mod2v(bits*self.G)
-   
-    def mod2(self,a): return int(a%2)
+        
+
+        #put values in slots
+        bits[0] = parities[0]
+        bits[1] = parities[1]
+        bits[3] = parities[2]
+        bits[7] = parities[3]
+
+        #convert to string
+        bits = ''.join(str(x) for x in bits)
+        return bits
+     
 
     def hamming_decode(self, code):
-        self.H = np.matrix("1 0 1 0 1 0 1 0 1 0 1 1 0 1 0;"+
-                            "0 1 1 0 0 1 1 0 0 1 1 0 0 1 1;"+
-                            "0 0 0 1 1 1 1 0 0 0 0 1 1 1 1;"+
-                            "0 0 0 0 0 0 0 1 1 1 1 1 1 1 1")
+     
+        code = bitstring2matrix(code)
+       
 
-        parities = self.mod2v(self.H * np.transpose(code))
-        parities2 = self.compute_parities(code[:, :-4])
-        print code[:, -4:]
-        print "parities:"
-        print np.transpose(parities)
-       # print abs(parities2 - code[:, -4:])
-        print
+        #make copy of code
+        expected = np.copy(code)
         
-      #  parities = np.transpose(abs(parities2 - code[:, -4:]))
+
+        #reset parity bits
+        expected[0,0] = 0
+        expected[0,1] = 0
+        expected[0,3] = 0
+        expected[0,7] = 0
+       
+        #recompute parity bits
+        parities = self.compute_parities(expected)
+        expected[0,0] = parities[0]
+        expected[0,1] = parities[1]
+        expected[0,3] = parities[2]
+        expected[0,7] = parities[3]
         
-        if np.sum(parities) != 0:
-            index = parities[0] + 2 * parities[1] + 4 * parities[2] + 8 * parities[3]
-            index = index[0,0]-1
-            code[0, index] = 1 - code[0, index];
+
+        expectedparities = np.array((expected[0,0],expected[0,1],expected[0,3],expected[0,7]))
+        actualparities = np.array((code[0,0],code[0,1],code[0,3],code[0,7]))
+        
+
+        #create a difference array
+        diff = abs(expectedparities - actualparities)
+
+        
+        if sum(diff) != 0:
+                #compute index by adding up parity bit values
+                index = diff[0] + 2 * diff[1] + 4 * diff[2] + 8 * diff[3] - 1
+                code[0, index] = 1 - code[0, index];
         else:
             index = -1
-        return index, code[:,:-4]
+      
+
+        #form result without parity bits
+        result = np.concatenate((np.matrix(code[0,2]), code[0,4:7], code[0,8:]), axis = 1)
+        result = np.array(result)[0]
+
+        #convert result to string
+        result = ''.join(str(x) for x in result)
+        return result
+
 
         
 
@@ -183,32 +214,32 @@ class HammingCode:
 # encoded_string = code.huffman_encode("test")
 # print code.huffman_decode(encoded_string)
 
-hamming = HammingCode()
-original = "11010110100"
-bits = bitstring2matrix(original)
-print
-print "original message:"
-print bits
-print
-code = hamming.hamming_encode(bits)
-print "message with parity bits:"
-print code
-print
-randombit = np.random.randint(0,15)
-code[0, randombit] = 1 - code[0, randombit]
-print "flipping bit " + str(randombit)
-print code
-print
+# hamming = HammingCode()
+# original = ''.join(str(np.random.randint(0, 2)) for x in xrange(11)) 
+# bits = bitstring2matrix(original)
+# print
+# print "original message:"
+# print bits
+# print
+# code = hamming.hamming_encode(bits)
+# print "message with parity bits:"
+# print code
+# print
+# randombit = np.random.randint(0,15)
+# code[0, randombit] = 1 - code[0, randombit]
+# print "flipping bit " + str(randombit)
+# print code
+# print
 
-index, output = hamming.hamming_decode(code)
-if index != -1:
-    print "fixed bit",
-    print index
-else:
-    print "no errors found"
+# index, output = hamming.hamming_decode(code)
+# if index != -1:
+#     print "fixed bit",
+#     print index
+# else:
+#     print "no errors found"
 
 
-print "decoded and corrected message"
-print output
-print np.all(bits == output) 
-print   
+# print "decoded and corrected message"
+# print output
+# print np.all(bits == output) 
+#print   
