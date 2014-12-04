@@ -12,6 +12,8 @@ class Node:
         self.char = char
         self.children = children
         self.parent = None
+        for n in children:
+            n.parent = self
 
     def __cmp__(self, other):
         return self.freq - other.freq
@@ -21,12 +23,24 @@ class Node:
 
     def get_bit_string(self, bit_string):
         if self.parent is None:
+            # print "---------"
             return bit_string
 
-        if self.parent.children[0] == self:
+        # if self.char == "b":
+        # print self.parent
+
+        if self.parent.children[0] is self:
+            # print "GOING LEFT FOR " + self.char
             return self.parent.get_bit_string("0" + bit_string)
-        else:
+        elif self.parent.children[1] is self:
+            # print "GOING RIGHT FOR " + self.char
             return self.parent.get_bit_string("1" + bit_string)
+        else:
+            print "ERROR"
+
+    def __repr__(self):
+        return "\nChar: {0}, Freq: {1}, Parent: {2}, Children: {3}".format(self.char, self.freq, (
+        self.parent.char, self.parent.freq) if self.parent is not None else None, self.children)
 
 
 class HuffmanCode:
@@ -68,14 +82,16 @@ class HuffmanCode:
             n1 = self.get_min_node(initial, combined)
             n2 = self.get_min_node(initial, combined)
 
-            print "Got {0} and {1}".format(n1.char, n2.char)
+            # print "Got {0} and {1}".format(n1.char, n2.char)
 
             new_node = n1.combine(n2)
             n1.parent = new_node
             n2.parent = new_node
             combined.put(new_node)
 
-        return combined.get(), leaf_nodes
+        root = combined.get()
+        print root
+        return root, leaf_nodes
 
     def huffman_encode(self, s):
         bitstring = ""
@@ -88,14 +104,14 @@ class HuffmanCode:
         decoded_string = ""
         while able_to_decode:
             decoded_char, bitstring = self.huffman_decode_next_char(bitstring)
-            if decoded_char == False:
+            if decoded_char is False:
                 able_to_decode = False
                 break
             decoded_string += decoded_char
         return decoded_string
 
     def huffman_decode_next_char(self, bitstring, code=None):
-        print bitstring
+        # print bitstring
         if code is None:
             code = self.code
         if len(code.char) > 0:
