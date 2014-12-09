@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7ae90db-f246-40e2-bf7b-cc8232a19383" name="Default" comment="Commit changes to tex">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Homework6.pdf" />
+    <list default="true" id="a7ae90db-f246-40e2-bf7b-cc8232a19383" name="Default" comment="Added PDF">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Homework6.pdf" afterPath="$PROJECT_DIR$/Homework6.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/writeup/Homework6.tex" afterPath="$PROJECT_DIR$/writeup/Homework6.tex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Assignment 6.iws" />
@@ -56,8 +57,8 @@
       <file leaf-file-name="Main.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.95" vertical-offset="770" max-vertical-offset="1470">
-              <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.29285714" vertical-offset="395" max-vertical-offset="1470">
+              <caret line="40" column="11" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
               <folding>
                 <element signature="e#22#42#0" expanded="true" />
               </folding>
@@ -770,7 +771,7 @@
       <workItem from="1417575662826" duration="4711000" />
       <workItem from="1417620801104" duration="1408000" />
       <workItem from="1417622215843" duration="11000" />
-      <workItem from="1417622245575" duration="25460000" />
+      <workItem from="1417622245575" duration="25589000" />
     </task>
     <task id="LOCAL-00001" summary="Huffman decoding and encoding now work. Removed IDEA's crap from the project.">
       <created>1417622331338</created>
@@ -816,15 +817,19 @@
       <created>1418092689178</created>
       <updated>1418092689178</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added PDF">
+      <created>1418092790036</created>
+      <updated>1418092790036</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31590000" />
+    <option name="totallyTimeSpent" value="31719000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="517" y="23" width="1403" height="1177" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299539" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -883,7 +888,8 @@
     <MESSAGE value="Yay everything seems to work" />
     <MESSAGE value="Commiting all the changes so far" />
     <MESSAGE value="Commit changes to tex" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit changes to tex" />
+    <MESSAGE value="Added PDF" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added PDF" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -998,8 +1004,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.95" vertical-offset="770" max-vertical-offset="1470">
-          <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.29285714" vertical-offset="395" max-vertical-offset="1470">
+          <caret line="40" column="11" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
           <folding>
             <element signature="e#22#42#0" expanded="true" />
           </folding>
