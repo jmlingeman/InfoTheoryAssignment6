@@ -90,7 +90,7 @@ class HuffmanCode:
             combined.put(new_node)
 
         root = combined.get()
-        print root
+        # print root
         return root, leaf_nodes
 
     def huffman_encode(self, s):
@@ -108,7 +108,7 @@ class HuffmanCode:
                 able_to_decode = False
                 break
             decoded_string += decoded_char
-        return decoded_string
+        return able_to_decode, decoded_string
 
     def huffman_decode_next_char(self, bitstring, code=None):
         # print bitstring
@@ -130,6 +130,7 @@ class HuffmanCode:
 class HammingCode:
     def __init__(self):
         self.errors = 0
+        self.no_errors = 0
 
     def compute_parities(self, bits):
         p1 = np.sum(bits[::2]) % 2
@@ -175,16 +176,16 @@ class HammingCode:
         bits = ''.join(str(x) for x in bits)
         return bits
 
-
     def hamming_decode(self, code):
+
+        assert (len(code) == 15)
 
         code = convert_string_to_intaarray(code)
 
-        print code
+        # print code
 
         # make copy of code
         expected = np.copy(code)
-
 
         #reset parity bits
         expected[0] = 0
@@ -212,6 +213,7 @@ class HammingCode:
             index = diff[0] + 2 * diff[1] + 4 * diff[2] + 8 * diff[3] - 1
             code[index] = 1 - code[index]
         else:
+            self.no_errors += 1
             index = -1
 
         #form result without parity bits
@@ -220,6 +222,7 @@ class HammingCode:
 
         #convert result to string
         result = ''.join(str(x) for x in result)
+        assert (len(result) == 11)
         return result
 
 
