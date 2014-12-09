@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7ae90db-f246-40e2-bf7b-cc8232a19383" name="Default" comment="Commiting all the changes so far">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/writeup/Homework6.tex" afterPath="$PROJECT_DIR$/writeup/Homework6.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main.py" afterPath="$PROJECT_DIR$/Main.py" />
+    <list default="true" id="a7ae90db-f246-40e2-bf7b-cc8232a19383" name="Default" comment="Commit changes to tex">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Homework6.pdf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Assignment 6.iws" />
@@ -771,7 +770,7 @@
       <workItem from="1417575662826" duration="4711000" />
       <workItem from="1417620801104" duration="1408000" />
       <workItem from="1417622215843" duration="11000" />
-      <workItem from="1417622245575" duration="25357000" />
+      <workItem from="1417622245575" duration="25460000" />
     </task>
     <task id="LOCAL-00001" summary="Huffman decoding and encoding now work. Removed IDEA's crap from the project.">
       <created>1417622331338</created>
@@ -813,11 +812,15 @@
       <created>1418090974308</created>
       <updated>1418090974308</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Commit changes to tex">
+      <created>1418092689178</created>
+      <updated>1418092689178</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31487000" />
+    <option name="totallyTimeSpent" value="31590000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="517" y="23" width="1403" height="1177" extended-state="0" />
@@ -879,7 +882,8 @@
     <MESSAGE value="Most things are fixed now. Can send code book across, when errors set to 0, get no errors." />
     <MESSAGE value="Yay everything seems to work" />
     <MESSAGE value="Commiting all the changes so far" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commiting all the changes so far" />
+    <MESSAGE value="Commit changes to tex" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit changes to tex" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
