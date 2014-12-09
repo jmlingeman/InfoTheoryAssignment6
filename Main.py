@@ -62,7 +62,6 @@ print "EXPECTED CODEWORDS WITH 1 ERROR: ", bits_sent * 0.02 / 15
 print "EXPECTED CODEWORDS WITH 2 ERRORS: ", bits_sent * 0.02 * 0.02 / 15
 print "UPPER BOUND ON CODEWORDS WITH MORE THAN 2 ERRORS: ", bits_sent * 0.02 * 0.02 * 0.02 / 15
 
-
 # print "NUM CODEWORDS 0 ERRORS: ", hamming.no_errors
 # print "NUM CODEWORDS 1 ERROR: ", hamming.errors
 # print "COUNT OF UNCOMPRESSED ERRORS: ", count_string_differences()

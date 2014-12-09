@@ -272,11 +272,13 @@ We achieve a compression factor of 1.8 (length of ascii bitstring / length of hu
 We have set $\alpha = 0.02$ so we expect $2\%$ of the bits to be erroneous.
 
 \subsection{B}
-We expect
+The chance of exactly 1 bit flip is $0.02 * 0.98^{14} = 0.015$.
 
 \subsection{C}
+The chance of exactly 2 bit flips is $0.02^2 * 0.98^{13} = 0.0003$.
 
 \subsection{D}
+The chance of more than 2 bit flips is $\sum_{i=3}^{15} 0.02^i * 0.98^{15-i} = 6.41e-06$.
 
 \end{homeworkProblem}
 
