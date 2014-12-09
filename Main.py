@@ -50,9 +50,10 @@ print "D. NUM NO ERRORS FROM CHANNEL: ", channel.no_errors
 print "E. NUM CODEWORDS 1 ERR: ", channel.one_errors
 print "F. NUM CODEWORDS 2 ERR: ", channel.double_errors
 print "G. MORE THAN 2 ERRORS: ", channel.more_than_double_errors
-print "H. BIT ERRORS AFTER DECODE: ", count_string_differences(hamming_decoded_ascii, ascii_bitstring)
+print "H. BIT ERRORS AFTER DECODE: ", count_string_differences("".join(hamming_decoded_ascii), ascii_bitstring)
 print "I. CODEWORD ERRORS AFTER DECODE: ", sum(
-    [1 if x != y else 0 for x, y in zip(hamming_ascii, hamming_corrupted_bitstring)])
+    [1 if x != y else 0 for x, y in zip(chunk_bitstring(ascii_bitstring, 11), hamming_decoded_ascii)])
+
 print "J. CHARACTERS WRONG: ", count_string_differences(hamming_ascii_final, "".join(book))
 
 print "NUM STRINGS SENT: ", channel.strings_sent

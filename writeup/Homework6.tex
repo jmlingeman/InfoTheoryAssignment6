@@ -185,8 +185,8 @@ We stripped out all punctuation and only alphanumeric characters and whitespace 
 \hline
  Character   &   Frequency \\
 \hline
-             &        7222 \\
-             &        7222 \\
+ \\r            &        7222 \\
+ \\n            &        7222 \\
              &       58759 \\
  1           &          81 \\
  0           &          28 \\
@@ -205,6 +205,11 @@ We stripped out all punctuation and only alphanumeric characters and whitespace 
  D           &         251 \\
  G           &         185 \\
  F           &         147 \\
+ \end{tabular}
+ \begin{tabular}{lr}
+ \hline
+ Character   &   Frequency \\
+ \hline
  I           &        1970 \\
  H           &         850 \\
  K           &          13 \\
@@ -232,6 +237,11 @@ We stripped out all punctuation and only alphanumeric characters and whitespace 
  f           &        5396 \\
  i           &       16209 \\
  h           &       16403 \\
+  \end{tabular}
+ \begin{tabular}{lr}
+  \hline
+ Character   &   Frequency \\
+ \hline
  k           &        2054 \\
  j           &         209 \\
  m           &        6630 \\
@@ -262,12 +272,51 @@ We achieve a compression factor of 1.8 (length of ascii bitstring / length of hu
 We have set $\alpha = 0.02$ so we expect $2\%$ of the bits to be erroneous.
 
 \subsection{B}
-
+We expect
 
 \subsection{C}
 
 \subsection{D}
 
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[6. Hamming Measurements on ASCII]
+\subsection{A}
+There were 334324 characters in the document.
+
+\subsection{B}
+The binary length of the document was 2674592 bits.
+
+\subsection{C}
+The channel introduced 72683 total errors.
+
+\subsection{D}
+179575 codewords had 0 errors.
+
+\subsection{E}
+54989 codewords had 1 error.
+
+\subsection{F}
+7844 codewords had 2 errors.
+
+\subsection{G}
+Only 736 codewords had more than 2 errors.
+
+\subsection{H}
+There were 19385 bit errors in the decoded string.
+
+\subsection{I}
+Error correction failed for 8580 codewords.
+
+\subsection{J}
+This results in 12732 incorrect characters.
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[7. Huffman results]
+We found that after decompressing the Huffman coding there were 310541 character errors (92\% error)!
+This happened because the Huffman code is greedily decoded and prefix coded, so if a bit gets flipped early on and is not recovered by error correction, then the rest of the document may be off.
+Even a single uncorrected bit flip can completely destroy the decompression of a Huffman code.
 \end{homeworkProblem}
 
 \end{spacing}
